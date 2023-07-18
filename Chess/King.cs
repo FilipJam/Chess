@@ -17,7 +17,6 @@ namespace FilipsChess
         {
             value = 5;
             inCheck = false;
-            moved = false;
         }
 
         public bool InCheck { get => inCheck; set => inCheck = value; }

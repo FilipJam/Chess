@@ -12,6 +12,7 @@ namespace FilipsChess
         protected bool moved;
         public CastlePiece(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
         {
+            moved = false;
         }
 
         public bool Moved { get => moved; set => moved = value; }
