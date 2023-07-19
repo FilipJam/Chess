@@ -25,6 +25,7 @@ namespace FilipsChess
         string playerColor = "white";
         bool gameOver = false;
         State currentChessState;
+        ChessPiece selectedPiece;
 
         Label lblWhitePlayer = new Label();
         Label lblBlackPlayer = new Label();
@@ -486,13 +487,13 @@ namespace FilipsChess
 
         private bool CheckPawnPromotion()
         {
-            Pawn pawn = Global.selectedPiece as Pawn;
+            Pawn pawn = selectedPiece as Pawn;
             if (pawn == null)
                 return false;
 
             if(pawn.Y == pawn.EndRow)
             {
-                Button btn = Global.board[Global.selectedPiece.Y, Global.selectedPiece.X];
+                Button btn = Global.board[selectedPiece.Y, selectedPiece.X];
                 Point pos = new Point(btn.Left + Left, btn.Top + Top + 30);
 
                 menuPromotion.Show(pos);
@@ -504,7 +505,7 @@ namespace FilipsChess
 
         private void EndTurn()
         {
-            Global.selectedPiece = null;
+            selectedPiece = null;
             SwitchPlayer();
             CreateNewState();
             
@@ -557,21 +558,21 @@ namespace FilipsChess
             if (gameOver)
                 return;
             // deselect piece
-            if (Global.selectedPiece != null && Global.selectedPiece.X == x && Global.selectedPiece.Y == y)
+            if (selectedPiece != null && selectedPiece.X == x && selectedPiece.Y == y)
             {
-                Global.selectedPiece.ClearMoves();
-                Global.selectedPiece = null;
+                selectedPiece.ClearMoves();
+                selectedPiece = null;
                 ResetColours();
             }
             // select if it is player piece
             else if (Global.chessPieces[y, x] != null && Global.chessPieces[y, x].Color == playerColor)
             {
-                if (Global.selectedPiece != null)
-                    Global.selectedPiece.ClearMoves();
+                if (selectedPiece != null)
+                    selectedPiece.ClearMoves();
                 ResetColours();
-                Global.selectedPiece = Global.chessPieces[y, x];
+                selectedPiece = Global.chessPieces[y, x];
                 Global.board[y, x].BackColor = Global.selectColor;
-                Global.selectedPiece.ShowMoves();
+                selectedPiece.ShowMoves();
             }
             // move piece
             else if (Global.board[y, x].BackColor == Global.moveColor || Global.board[y, x].BackColor == Global.enemyColor)
@@ -580,12 +581,12 @@ namespace FilipsChess
                 UpdateBlackPieces(y, x);
                 CheckForEnPassant(y, x);
 
-                Global.chessPieces[Global.selectedPiece.Y, Global.selectedPiece.X] = null;
-                Global.chessPieces[y, x] = Global.selectedPiece;
-                Global.board[Global.selectedPiece.Y, Global.selectedPiece.X].Image = Global.emptyImage;
-                Global.board[y, x].Image = Global.selectedPiece.Image;
+                Global.chessPieces[selectedPiece.Y, selectedPiece.X] = null;
+                Global.chessPieces[y, x] = selectedPiece;
+                Global.board[selectedPiece.Y, selectedPiece.X].Image = Global.emptyImage;
+                Global.board[y, x].Image = selectedPiece.Image;
 
-                if (Global.selectedPiece is King)
+                if (selectedPiece is King)
                     CheckCastling(x);
 
                 ResetStatus();
@@ -593,8 +594,8 @@ namespace FilipsChess
 
                 CheckForPassingPawn(y);
 
-                Global.selectedPiece.X = x;
-                Global.selectedPiece.Y = y;
+                selectedPiece.X = x;
+                selectedPiece.Y = y;
 
                 if (!CheckPawnPromotion())
                     EndTurn();
@@ -609,13 +610,13 @@ namespace FilipsChess
 
         private void CheckCastleRequirements()
         {
-            if (Global.selectedPiece is CastlePiece castlePiece)
+            if (selectedPiece is CastlePiece castlePiece)
                 castlePiece.Moved = true;
         }
 
         private void CheckForPassingPawn(int y)
         {
-            if (Global.selectedPiece is Pawn pawn && ((pawn.Y - 2) == y || (pawn.Y + 2) == y))
+            if (selectedPiece is Pawn pawn && ((pawn.Y - 2) == y || (pawn.Y + 2) == y))
             {
                 Global.passingPawn = pawn;
             }
@@ -623,7 +624,7 @@ namespace FilipsChess
 
         private void CheckForEnPassant(int y, int x)
         {
-            if (Global.selectedPiece is Pawn && Global.enPassantCapture.X == x && Global.enPassantCapture.Y == y)
+            if (selectedPiece is Pawn && Global.enPassantCapture.X == x && Global.enPassantCapture.Y == y)
             {
                 Global.chessPieces[Global.passingPawn.Y, Global.passingPawn.X] = null;
                 Global.board[Global.passingPawn.Y, Global.passingPawn.X].Image = Global.emptyImage;
@@ -636,7 +637,7 @@ namespace FilipsChess
             blackPieces.ForEach(piece => maxPoints = FindBestCapture(piece, maxPoints));
             if(bestPiece != null)
             {
-                Global.selectedPiece = bestPiece;
+                selectedPiece = bestPiece;
                 bestPiece.ShowMoves();
             }
                 
