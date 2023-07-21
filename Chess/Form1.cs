@@ -703,21 +703,21 @@ namespace FilipsChess
                 if (indexes.Count == 0)
                     return;
                 int index = indexes[rand.Next(indexes.Count)];
-                Global.selectedPiece = blackPieces[index];
-                Global.selectedPiece.CalcMoves();
-                Global.selectedPiece.MeetMoveRequirements();
+                selectedPiece = blackPieces[index];
+                selectedPiece.CalcMoves();
+                selectedPiece.MeetMoveRequirements();
                 indexes.Remove(index);
             }
-            while (accessList(Global.selectedPiece).Count == 0);
+            while (accessList(selectedPiece).Count == 0);
 
-            Global.selectedPiece.ShowMoves();
-            bestPiece = Global.selectedPiece;
-            bestMove = accessList(Global.selectedPiece)[rand.Next(Global.selectedPiece.TotalMoves.Count)];
+            selectedPiece.ShowMoves();
+            bestPiece = selectedPiece;
+            bestMove = accessList(selectedPiece)[rand.Next(selectedPiece.TotalMoves.Count)];
         }
 
         private void CheckCastling(int newX)
         {
-            King king = (King)Global.selectedPiece;
+            King king = (King)selectedPiece;
             for (int i = 0; i < 2; i++)
                 if (newX == king.CastleDirections[i])
                     MoveRook(i, king);
@@ -745,8 +745,8 @@ namespace FilipsChess
             
             
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            int y = Global.selectedPiece.Y;
-            int x = Global.selectedPiece.X;
+            int y = selectedPiece.Y;
+            int x = selectedPiece.X;
 
             int colorIndex = 0;
             if (playerColor == "black")
@@ -754,14 +754,14 @@ namespace FilipsChess
 
             switch (item.Text)
             {
-                case "Knight": Global.selectedPiece = new Knight(y, x, knight[colorIndex], playerColor); break;
-                case "Bishop": Global.selectedPiece = new Bishop(y, x, bishop[colorIndex], playerColor); break;
-                case "Rook": Global.selectedPiece = new Rook(y, x, rook[colorIndex], playerColor); break;
-                case "Queen": Global.selectedPiece = new Queen(y, x, queen[colorIndex], playerColor); break;
+                case "Knight": selectedPiece = new Knight(y, x, knight[colorIndex], playerColor); break;
+                case "Bishop": selectedPiece = new Bishop(y, x, bishop[colorIndex], playerColor); break;
+                case "Rook": selectedPiece = new Rook(y, x, rook[colorIndex], playerColor); break;
+                case "Queen": selectedPiece = new Queen(y, x, queen[colorIndex], playerColor); break;
             }
 
-            Global.chessPieces[y, x] = Global.selectedPiece;
-            Global.board[y, x].Image = Global.selectedPiece.Image;
+            Global.chessPieces[y, x] = selectedPiece;
+            Global.board[y, x].Image = selectedPiece.Image;
 
             EndTurn();
 
@@ -773,9 +773,9 @@ namespace FilipsChess
 
         private void Board_LocationChanged(object sender, EventArgs e)
         {
-            if (Global.selectedPiece == null)
+            if (selectedPiece == null)
                 return;
-            Button btn = Global.board[Global.selectedPiece.Y, Global.selectedPiece.X];
+            Button btn = Global.board[selectedPiece.Y, selectedPiece.X];
             Point pos = new Point(btn.Left + Left, btn.Top + Top + 30);
 
             menuPromotion.Left = pos.X;
