@@ -279,13 +279,15 @@ namespace FilipsChess
                     return;
 
                 piece.CalcMoves(analysisMode: true);
-                if (piece is King)if (piece.Color != playerColor && !FindCheck(piece))
+                if (piece is King)
+                    kingList.Add((King)piece);
+
+
+                if (piece.Color != playerColor && !FindCheck(piece))
                 {
                     UpdateCastlingOptions(CheckCastleClearance, piece);
                     UpdateCastlingOptions(CheckCastleBlock, piece);
                 }
-                    kingList.Add((King)piece);
-
                 
 
                 if (piece is Pawn)
