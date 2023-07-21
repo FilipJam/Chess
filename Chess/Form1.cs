@@ -249,7 +249,7 @@ namespace FilipsChess
 
         void AnalyseBoard()
         {
-            void FindKingAroundPiece(List<Point> moves, string pieceColor)
+            void BlockKingMoves(List<Point> moves, string pieceColor)
             {
                 int[,] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, 1 }, { 1, -1 }, { -1, -1 } };
                 foreach (Point pos in moves)
@@ -278,19 +278,19 @@ namespace FilipsChess
                     return;
 
                 piece.CalcMoves(analysisMode: true);
-                if (piece is King)
-                    kingList.Add((King)piece);
-
-                if (piece.Color != playerColor && !FindCheck(piece))
+                if (piece is King)if (piece.Color != playerColor && !FindCheck(piece))
                 {
                     UpdateCastlingOptions(CheckCastleClearance, piece);
                     UpdateCastlingOptions(CheckCastleBlock, piece);
                 }
+                    kingList.Add((King)piece);
+
+                
 
                 if (piece is Pawn)
-                    FindKingAroundPiece(((Pawn)piece).PotentialCaptures, piece.Color);
+                    BlockKingMoves(((Pawn)piece).PotentialCaptures, piece.Color);
                 else
-                    FindKingAroundPiece(piece.Moves, piece.Color);
+                    BlockKingMoves(piece.Moves, piece.Color);
 
                 if (piece.Color == playerColor && piece.TotalMoves.Count > 0)
                     movesAvailable = true;
@@ -324,7 +324,8 @@ namespace FilipsChess
 
                 king.CalcMoves();
 
-                if ((king.Moves.Count + king.Captures.Count) == 0 && NoHelp(king.Color))
+                
+                if (king.TotalMoves.Count == 0 && NoHelp(king.Color))
                 {
                     Checkmate(king.Color);
                     break;

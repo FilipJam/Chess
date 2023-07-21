@@ -43,9 +43,9 @@ namespace FilipsChess
         public static void SearchPaths(ChessPiece piece, int[,] directions, bool analysisMode)
         {
             piece.ClearMoves();
+
             for (int i = 0; i < directions.Length / 2; i++)
             {
-                
                 int newX = piece.X;
                 int newY = piece.Y;
                 ChessPiece potentialPinnedPiece = null;
@@ -63,7 +63,7 @@ namespace FilipsChess
                         if (potentialPinnedPiece == null)
                         {
                             piece.Captures.Add(new Point(newX, newY));
-                            if(chessPieces[newY, newX] is King)
+                            if (chessPieces[newY, newX] is King)
                                 checkingPath.AddRange(pinnedPath.GetRange(0, pinnedPath.Count));
                             else if (analysisMode)
                                 potentialPinnedPiece = chessPieces[newY, newX];
