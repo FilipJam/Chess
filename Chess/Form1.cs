@@ -272,20 +272,21 @@ namespace FilipsChess
             }
 
             List<King> kingList = new List<King>();
-            bool movesAvailable = false;
             void Analyze(ChessPiece piece)
             {
                 if (piece == null)
                     return;
 
                 piece.CalcMoves(analysisMode: true);
-                if (piece is King)if (piece.Color != playerColor && !FindCheck(piece))
+                if (piece is King)
+                    kingList.Add((King)piece);
+
+
+                if (piece.Color != playerColor && !FindCheck(piece))
                 {
                     UpdateCastlingOptions(CheckCastleClearance, piece);
                     UpdateCastlingOptions(CheckCastleBlock, piece);
                 }
-                    kingList.Add((King)piece);
-
                 
 
                 if (piece is Pawn)
@@ -293,23 +294,33 @@ namespace FilipsChess
                 else
                     BlockKingMoves(piece.Moves, piece.Color);
 
-                if (piece.Color == playerColor && piece.TotalMoves.Count > 0)
-                    movesAvailable = true;
-
                 piece.ClearMoves();
             }
 
-
-
-
             ExecuteAcrossGrid((y, x) => Analyze(Global.chessPieces[y, x]));
             FindCheckMate(kingList);
-            FindStaleMate(movesAvailable);
+            FindStaleMate();
         }
 
-        private void FindStaleMate(bool movesAvailable)
+        private void FindStaleMate()
         {
-            if (!movesAvailable && !gameOver)
+            if (gameOver)
+                return;
+
+            bool movesAvailable = false;
+            ExecuteAcrossGrid((y, x) =>
+            {
+                if (movesAvailable || Global.chessPieces[y, x] == null || Global.chessPieces[y,x].Color != playerColor)
+                    return;
+
+                Global.chessPieces[y, x].CalcMoves();
+                Global.chessPieces[y, x].MeetMoveRequirements();
+
+                if (Global.chessPieces[y, x].TotalMoves.Count > 0)
+                    movesAvailable = true;
+            });
+
+            if (!movesAvailable)
                 Stalemate();
         }
 
