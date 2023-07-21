@@ -15,7 +15,7 @@ namespace FilipsChess
         public static Button[,] board = new Button[8,8];
         public static ChessPiece[,] chessPieces = new ChessPiece[8, 8];
         public static Bitmap emptyImage;
-        public static ChessPiece selectedPiece;
+        //public static ChessPiece selectedPiece;
         public static King kingInCheck;
         public static Pawn passingPawn;
         public static Point enPassantCapture = Point.Empty;
