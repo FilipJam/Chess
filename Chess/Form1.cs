@@ -158,7 +158,11 @@ namespace FilipsChess
             LoadState();
         }
 
-        private void PopulateState() => ExecuteAcrossGrid((y, x) => currentChessState.ChessPieces[y, x] = Global.chessPieces[y, x]);
+        private void PopulateState()
+        {
+            ExecuteAcrossGrid((y, x) => currentChessState.ChessPieces[y, x] = Global.chessPieces[y, x]);
+            currentChessState.SaveCastlingConditions();
+        }
 
         private void LoadState()
         {
@@ -167,8 +171,12 @@ namespace FilipsChess
                 Global.chessPieces[y, x] = currentChessState.ChessPieces[y, x];
                 if (Global.chessPieces[y, x] == null)
                     return;
-                Global.chessPieces[y, x].Y = y;
-                Global.chessPieces[y, x].X = x;
+
+                Global.chessPieces[y, x].Position = new Point(x, y);
+                if (Global.chessPieces[y,x] is CastlePiece castlePiece)
+                {
+                    castlePiece.Moved = (bool)currentChessState.CastlePieces[castlePiece.Position];
+                }
             });
             playerColor = currentChessState.PlayerColor;
             gameOver = currentChessState.GameOver;
