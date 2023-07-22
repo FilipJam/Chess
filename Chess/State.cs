@@ -38,11 +38,8 @@ namespace FilipsChess
         {
             for (int y = 0; y < 8; y++)
                 for (int x = 0; x < 8; x++)
-                    if (chessPieces[y, x] != null && chessPieces[y, x] is CastlePiece)
-                    {
-                        CastlePiece castlePiece = (CastlePiece)chessPieces[y, x];
+                    if (chessPieces[y, x] != null && chessPieces[y, x] is CastlePiece castlePiece)
                         castlePieces.Add(castlePiece.Position, castlePiece.Moved);
-                    }
                         
         }
     }
