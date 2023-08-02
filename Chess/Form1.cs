@@ -121,7 +121,7 @@ namespace FilipsChess
 
         private void BoardSetup()
         {
-            currentChessState = new State("white");
+            currentChessState = new State("white", Global.passingPawn);
             ResetStatus();
             ResetColours();
             ExecuteAcrossGrid((y, x) => Global.chessPieces[y, x] = null);
@@ -178,6 +178,7 @@ namespace FilipsChess
             });
             playerColor = currentChessState.PlayerColor;
             gameOver = currentChessState.GameOver;
+            Global.passingPawn = currentChessState.PassingPawn;
 
             blackPieces = new List<ChessPiece>();
             ExecuteAcrossGrid((y, x) =>
@@ -534,7 +535,7 @@ namespace FilipsChess
 
         private void CreateNewState()
         {
-            State nextState = new State(playerColor);
+            State nextState = new State(playerColor, Global.passingPawn);
 
             currentChessState.Next = nextState;
             nextState.Prev = currentChessState;

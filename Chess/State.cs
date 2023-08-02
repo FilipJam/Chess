@@ -15,15 +15,17 @@ namespace FilipsChess
         private State next;
         private string playerColor;
         private bool gameOver;
+        private Pawn passingPawn;
         private Hashtable castlePieces;
 
         private ChessPiece[,] chessPieces; 
 
-        public State(string playerColor, bool gameOver=false)
+        public State(string playerColor, Pawn passingPawn, bool gameOver=false)
         {
             chessPieces = new ChessPiece[8, 8];
             castlePieces = new Hashtable();
             this.playerColor = playerColor;
+            this.passingPawn = passingPawn;
             this.gameOver = gameOver;
         }
 
@@ -33,6 +35,7 @@ namespace FilipsChess
         internal State Prev { get => prev; set => prev = value; }
         internal State Next { get => next; set => next = value; }
         internal ChessPiece[,] ChessPieces { get => chessPieces; set => chessPieces = value; }
+        internal Pawn PassingPawn { get => passingPawn; set => passingPawn = value; }
 
         public void SaveCastlingConditions()
         {
