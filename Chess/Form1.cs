@@ -174,9 +174,7 @@ namespace FilipsChess
 
                 Global.chessPieces[y, x].Position = new Point(x, y);
                 if (Global.chessPieces[y,x] is CastlePiece castlePiece)
-                {
                     castlePiece.Moved = (bool)currentChessState.CastlePieces[castlePiece.Position];
-                }
             });
             playerColor = currentChessState.PlayerColor;
             gameOver = currentChessState.GameOver;
