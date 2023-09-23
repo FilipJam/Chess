@@ -50,7 +50,6 @@ namespace FilipsChess
         ChessPiece bestPiece;
         ConstructorInfo chessPieceCtor;
         Button[] editBtns;
-        int selectedEditIndex = -1;
 
 
         private delegate void ArrayElementAction(int y, int x);
