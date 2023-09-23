@@ -12,7 +12,7 @@ namespace FilipsChess
         public static string GetMyDirectory() // maintains file management
         {
             string path = Directory.GetCurrentDirectory();
-            // path backs from current directory untill it reaches SeaAnimalsQuiz directory
+            // path backs from current directory untill it reaches Chess directory
             while (!path.EndsWith("Chess"))
                 path = Directory.GetParent(path).FullName;
             return path;
