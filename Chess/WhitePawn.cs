@@ -13,12 +13,14 @@ namespace FilipsChess
 {
     internal class WhitePawn : Pawn
     {
-        public WhitePawn(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
+        public WhitePawn(int y, int x, string pieceColor) : base(y, x, pieceColor)
         {
             opponentIndex = 1;
             moveDirection = 1;
             startRow = 1;
             endRow = 7;
+
+            Image = Asset.PawnImage[0];
         }
     }
 }

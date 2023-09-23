@@ -9,9 +9,14 @@ namespace FilipsChess
 {
     internal class Queen : ChessPiece
     {
-        public Queen(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
+        public Queen(int y, int x, string pieceColor) : base(y, x, pieceColor)
         {
             value = 9;
+
+            if (pieceColor == "white")
+                Image = Asset.QueenImage[0];
+            else
+                Image = Asset.QueenImage[1];
         }
         public override void CalcMoves(bool analysisMode = false)
         {

@@ -13,14 +13,19 @@ namespace FilipsChess
     {
         private bool inCheck;
 
-        public King(int y, int x, Bitmap image, string color) : base(y, x, image, color) 
+        public King(int y, int x, string color) : base(y, x, color) 
         {
             value = 5;
             inCheck = false;
+
+            if (color == "white")
+                Image = Asset.KingImage[0];
+            else
+                Image = Asset.KingImage[1];
         }
 
         public bool InCheck { get => inCheck; set => inCheck = value; }
-        public int[] CastleDirections { get => new int[] { X - 2, X + 2 }; }
+        public int[] CastlePositions { get => new int[] { 2, 6 }; }
 
         public override void CalcMoves(bool analysisMode = false)
         {
@@ -38,7 +43,7 @@ namespace FilipsChess
             {
                 Rook rook = Global.chessPieces[Y, i * 7] as Rook;
                 if (rook != null && !rook.Moved && Castle.Availability[i])
-                    moves.Add(new Point(CastleDirections[i], Y));
+                    moves.Add(new Point(CastlePositions[i], Y));
             }
         }
 

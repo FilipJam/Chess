@@ -10,9 +10,14 @@ namespace FilipsChess
 {
     internal class Rook : CastlePiece
     {
-        public Rook(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
+        public Rook(int y, int x, string pieceColor) : base(y, x, pieceColor)
         {
             value = 5;
+
+            if (pieceColor == "white")
+                Image = Asset.RookImage[0];
+            else
+                Image = Asset.RookImage[1];
         }
 
         public override void CalcMoves(bool analysisMode = false)

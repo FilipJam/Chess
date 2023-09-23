@@ -17,7 +17,7 @@ namespace FilipsChess
         public List<Point> PotentialCaptures { get => potentialCaptures; set => potentialCaptures = value; }
         public int EndRow { get => endRow; set => endRow = value; }
 
-        public Pawn(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
+        public Pawn(int y, int x, string pieceColor) : base(y, x, pieceColor)
         {
             value = 1;
             potentialCaptures= new List<Point>();

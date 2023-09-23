@@ -20,8 +20,12 @@ namespace FilipsChess
         public static List<int[]> RangeList { get => rangeList; }
         public static bool[] Availability { get => castleAvailability; set => castleAvailability = value; }
 
+        public static bool Left { get => castleAvailability[0]; set => castleAvailability[0] = value; }
+        public static bool Right { get => castleAvailability[1]; set => castleAvailability[1] = value; }
+
         public static bool CheckCastleAvailable()
         {
+
             return false;
         }
     }

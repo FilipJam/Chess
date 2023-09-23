@@ -10,7 +10,7 @@ namespace FilipsChess
     abstract class CastlePiece : ChessPiece
     {
         protected bool moved;
-        public CastlePiece(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
+        public CastlePiece(int y, int x, string pieceColor) : base(y, x, pieceColor)
         {
             moved = false;
         }

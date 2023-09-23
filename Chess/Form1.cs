@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Configuration;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -47,6 +48,10 @@ namespace FilipsChess
         List<ChessPiece> blackPieces;
         Point bestMove;
         ChessPiece bestPiece;
+        ConstructorInfo chessPieceCtor;
+        Button[] editBtns;
+        int selectedEditIndex = -1;
+
 
         private delegate void ArrayElementAction(int y, int x);
 
@@ -69,12 +74,24 @@ namespace FilipsChess
             empty = new Bitmap(btn17.Image);
             Global.emptyImage = empty;
 
+
             pawn[0] = new Bitmap(btn9.Image); pawn[1] = new Bitmap(btn50.Image);
             rook[0] = new Bitmap(btn1.Image); rook[1] = new Bitmap(btn64.Image);
             knight[0] = new Bitmap(btn2.Image); knight[1] = new Bitmap(btn63.Image);
             bishop[0] = new Bitmap(btn3.Image); bishop[1] = new Bitmap(btn62.Image);
             queen[0] = new Bitmap(btn4.Image); queen[1] = new Bitmap(btn60.Image);
             king[0] = new Bitmap(btn5.Image); king[1] = new Bitmap(btn61.Image);
+
+            btnRook.Image = rook[0];
+            btnKnight.Image = knight[0];
+            btnBishop.Image = bishop[0];
+            btnQueen.Image = queen[0];
+            btnKing.Image = king[0];
+            btnPawn.Image = pawn[0];
+
+            editBtns = new Button[] { btnRook, btnKnight, btnBishop, btnQueen, btnKing, btnPawn };
+
+            
 
             Global.board[0, 0] = btn1; Global.board[0, 1] = btn2; Global.board[0, 2] = btn3; Global.board[0, 3] = btn4;
             Global.board[0, 4] = btn5; Global.board[0, 5] = btn6; Global.board[0, 6] = btn7; Global.board[0, 7] = btn8;
@@ -125,34 +142,34 @@ namespace FilipsChess
             ResetStatus();
             ResetColours();
             ExecuteAcrossGrid((y, x) => Global.chessPieces[y, x] = null);
-            ExecuteAcrossGrid((y, x) => Global.chessPieces[y, x] = new WhitePawn(y, x, pawn[0], "white"), startY: 1, endY: 2);
-            ExecuteAcrossGrid((y, x) => Global.chessPieces[y, x] = new BlackPawn(y, x, pawn[1], "black"), startY: 6, endY: 7);
+            ExecuteAcrossGrid((y, x) => Global.chessPieces[y, x] = new WhitePawn(y, x, "white"), startY: 1, endY: 2);
+            ExecuteAcrossGrid((y, x) => Global.chessPieces[y, x] = new BlackPawn(y, x, "black"), startY: 6, endY: 7);
 
             //rooks
-            Global.chessPieces[0, 0] = new Rook(0, 0, rook[0], "white");
-            Global.chessPieces[0, 7] = new Rook(0, 7, rook[0], "white");
-            Global.chessPieces[7, 0] = new Rook(7, 0, rook[1], "black");
-            Global.chessPieces[7, 7] = new Rook(7, 7, rook[1], "black");
+            Global.chessPieces[0, 0] = new Rook(0, 0, "white");
+            Global.chessPieces[0, 7] = new Rook(0, 7, "white");
+            Global.chessPieces[7, 0] = new Rook(7, 0, "black");
+            Global.chessPieces[7, 7] = new Rook(7, 7, "black");
 
             //knights
-            Global.chessPieces[0, 1] = new Knight(0, 1, knight[0], "white");
-            Global.chessPieces[0, 6] = new Knight(0, 6, knight[0], "white");
-            Global.chessPieces[7, 1] = new Knight(7, 1, knight[1], "black");
-            Global.chessPieces[7, 6] = new Knight(7, 6, knight[1], "black");
+            Global.chessPieces[0, 1] = new Knight(0, 1, "white");
+            Global.chessPieces[0, 6] = new Knight(0, 6, "white");
+            Global.chessPieces[7, 1] = new Knight(7, 1, "black");
+            Global.chessPieces[7, 6] = new Knight(7, 6, "black");
 
             //bishops
-            Global.chessPieces[0, 2] = new Bishop(0, 2, bishop[0], "white");
-            Global.chessPieces[0, 5] = new Bishop(0, 5, bishop[0], "white");
-            Global.chessPieces[7, 2] = new Bishop(7, 2, bishop[1], "black");
-            Global.chessPieces[7, 5] = new Bishop(7, 5, bishop[1], "black");
+            Global.chessPieces[0, 2] = new Bishop(0, 2, "white");
+            Global.chessPieces[0, 5] = new Bishop(0, 5, "white");
+            Global.chessPieces[7, 2] = new Bishop(7, 2, "black");
+            Global.chessPieces[7, 5] = new Bishop(7, 5, "black");
 
             //queens
-            Global.chessPieces[0, 3] = new Queen(0, 3, queen[0], "white");
-            Global.chessPieces[7, 3] = new Queen(7, 3, queen[1], "black");
+            Global.chessPieces[0, 3] = new Queen(0, 3, "white");
+            Global.chessPieces[7, 3] = new Queen(7, 3, "black");
 
             //kings
-            Global.chessPieces[0, 4] = new King(0, 4, king[0], "white");
-            Global.chessPieces[7, 4] = new King(7, 4, king[1], "black");
+            Global.chessPieces[0, 4] = new King(0, 4, "white");
+            Global.chessPieces[7, 4] = new King(7, 4, "black");
 
             PopulateState();
             LoadState();
@@ -178,7 +195,7 @@ namespace FilipsChess
             });
             playerColor = currentChessState.PlayerColor;
             gameOver = currentChessState.GameOver;
-            Global.passingPawn = currentChessState.PassingPawn;
+            //Global.passingPawn = currentChessState.PassingPawn;
 
             blackPieces = new List<ChessPiece>();
             ExecuteAcrossGrid((y, x) =>
@@ -196,7 +213,7 @@ namespace FilipsChess
             UpdateTurnLabels();
             ResetStatus();
             ResetColours();
-            AnalyseBoard();
+            AnalyzeBoard();
             UpdateStateButtons();
         }
 
@@ -255,9 +272,9 @@ namespace FilipsChess
             }
         }
 
-        void AnalyseBoard()
+        void AnalyzeBoard()
         {
-            void BlockKingMoves(List<Point> moves, string pieceColor)
+            void BlockKingMoves(List<Point> moves, ChessPiece piece)
             {
                 int[,] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, 1 }, { 1, -1 }, { -1, -1 } };
                 foreach (Point pos in moves)
@@ -269,10 +286,14 @@ namespace FilipsChess
                             continue;
 
                         ChessPiece opponentPiece = Global.chessPieces[newY, newX];
-                        if (opponentPiece != null && opponentPiece.Color != pieceColor && opponentPiece is King)
+                        if (opponentPiece != null && opponentPiece.Color != piece.Color && opponentPiece is King)
                         {
                             //MessageBox.Show(string.Format("Blocked king move at: {0},{1}", pos.Y, pos.X));
                             AddUniquePoint((List<Point>)Global.blockedKingMoves[opponentPiece.Color], pos);
+
+                            if(piece is King)
+                                AddUniquePoint((List<Point>)Global.blockedKingMoves[piece.Color], pos);
+
                             break;
                         }
                     }
@@ -297,9 +318,9 @@ namespace FilipsChess
                 
 
                 if (piece is Pawn)
-                    BlockKingMoves(((Pawn)piece).PotentialCaptures, piece.Color);
+                    BlockKingMoves(((Pawn)piece).PotentialCaptures, piece);
                 else
-                    BlockKingMoves(piece.Moves, piece.Color);
+                    BlockKingMoves(piece.Moves, piece);
 
                 piece.ClearMoves();
             }
@@ -376,7 +397,13 @@ namespace FilipsChess
 
         private void CheckCastleBlock(ChessPiece piece, int rangeIndex, int y)
         {
-            for (int x = Castle.RangeList[rangeIndex][0]; x <= Castle.RangeList[rangeIndex][1]; x++)
+            int start = Castle.RangeList[rangeIndex][0];
+            int end = Castle.RangeList[rangeIndex][1];
+
+            if (rangeIndex == 0) start++;
+            else end--;
+
+            for (int x = start; x <= end; x++)
             {
                 if (piece.TotalMoves.Contains(new Point(x, y)))
                 {
@@ -388,7 +415,7 @@ namespace FilipsChess
 
         private void CheckCastleClearance(ChessPiece piece, int rangeIndex, int y)
         {
-            for (int x = Castle.RangeList[rangeIndex][0] + 1; x <= Castle.RangeList[rangeIndex][1] - 1; x++)
+            for (int x = Castle.RangeList[rangeIndex][0]+1; x <= Castle.RangeList[rangeIndex][1] - 1; x++)
             {
                 if (Global.chessPieces[y, x] != null)
                 {
@@ -528,7 +555,7 @@ namespace FilipsChess
             SwitchPlayer();
             CreateNewState();
             
-            AnalyseBoard();
+            AnalyzeBoard();
 
             StartComputerTurn();
         }
@@ -574,8 +601,14 @@ namespace FilipsChess
 
         private void ActivateSquare(int y, int x)
         {
+            if (chkEditing.Checked)
+            {
+                EditSquare(y, x);
+                return;
+            }
             if (gameOver)
                 return;
+
             // deselect piece
             if (selectedPiece != null && selectedPiece.X == x && selectedPiece.Y == y)
             {
@@ -596,8 +629,12 @@ namespace FilipsChess
             // move piece
             else if (Global.board[y, x].BackColor == Global.moveColor || Global.board[y, x].BackColor == Global.enemyColor)
             {
+                
+                if (selectedPiece is King king && !king.Moved)
+                    TryCastling(x);
+
                 CheckCastleRequirements();
-                UpdateBlackPieces(y, x);
+                CheckToRemoveBlackPiece(y, x);
                 CheckForEnPassant(y, x);
 
                 Global.chessPieces[selectedPiece.Y, selectedPiece.X] = null;
@@ -605,8 +642,7 @@ namespace FilipsChess
                 Global.board[selectedPiece.Y, selectedPiece.X].Image = Global.emptyImage;
                 Global.board[y, x].Image = selectedPiece.Image;
 
-                if (selectedPiece is King)
-                    CheckCastling(x);
+                
 
                 ResetStatus();
                 ResetColours();
@@ -621,7 +657,47 @@ namespace FilipsChess
             }
         }
 
-        private void UpdateBlackPieces(int y, int x)
+        private void EditSquare(int y, int x)
+        {
+            void AddNewPiece(string color)
+            {
+                ChessPiece newPiece;
+
+                if(chessPieceCtor.DeclaringType == typeof(Pawn))
+                    switch (color)
+                    {
+                        case "white": newPiece = new WhitePawn(y, x, color); break;
+                        case "black": newPiece = new BlackPawn(y, x, color); break;
+                        default: newPiece = null; break;
+                    }
+                else
+                    newPiece = (ChessPiece)chessPieceCtor.Invoke(new object[] { y, x, color });
+
+                Global.chessPieces[y, x] = newPiece;
+                Global.board[y, x].Image = newPiece.Image;
+
+            }
+
+            if(chessPieceCtor == null)
+            {
+                MessageBox.Show("Select a piece to place down");
+                return;
+            }
+
+            ChessPiece piece = Global.chessPieces[y, x];
+            if (piece == null)
+                AddNewPiece("white");
+            else if ((piece.GetType() == chessPieceCtor.DeclaringType && piece.Color == "white") ||
+                (chessPieceCtor.DeclaringType == typeof(Pawn) && piece is Pawn && piece.Color == "white"))
+                AddNewPiece("black");
+            else
+            {
+                Global.chessPieces[y, x] = null;
+                Global.board[y, x].Image = null;
+            }
+        }
+
+        private void CheckToRemoveBlackPiece(int y, int x)
         {
             if (playerColor == "white" && Global.chessPieces[y, x] != null)
                 blackPieces.Remove(Global.chessPieces[y, x]);
@@ -734,16 +810,16 @@ namespace FilipsChess
             bestMove = accessList(selectedPiece)[rand.Next(selectedPiece.TotalMoves.Count)];
         }
 
-        private void CheckCastling(int newX)
+        private void TryCastling(int newX)
         {
             King king = (King)selectedPiece;
             for (int i = 0; i < 2; i++)
-                if (newX == king.CastleDirections[i])
-                    MoveRook(i, king);
+                if (newX == king.CastlePositions[i])
+                    CastleRook(i, king);
 
         }
 
-        private void MoveRook(int dirIndex, King king)
+        private void CastleRook(int dirIndex, King king)
         {
             int[] newX = { king.X - 1, king.X + 1 };
             int edgeX = dirIndex * 7;
@@ -767,16 +843,16 @@ namespace FilipsChess
             int y = selectedPiece.Y;
             int x = selectedPiece.X;
 
-            int colorIndex = 0;
+            /*int colorIndex = 0;
             if (playerColor == "black")
-                colorIndex = 1;
+                colorIndex = 1;*/
 
             switch (item.Text)
             {
-                case "Knight": selectedPiece = new Knight(y, x, knight[colorIndex], playerColor); break;
-                case "Bishop": selectedPiece = new Bishop(y, x, bishop[colorIndex], playerColor); break;
-                case "Rook": selectedPiece = new Rook(y, x, rook[colorIndex], playerColor); break;
-                case "Queen": selectedPiece = new Queen(y, x, queen[colorIndex], playerColor); break;
+                case "Knight": selectedPiece = new Knight(y, x, playerColor); break;
+                case "Bishop": selectedPiece = new Bishop(y, x, playerColor); break;
+                case "Rook": selectedPiece = new Rook(y, x, playerColor); break;
+                case "Queen": selectedPiece = new Queen(y, x, playerColor); break;
             }
 
             Global.chessPieces[y, x] = selectedPiece;
@@ -812,5 +888,67 @@ namespace FilipsChess
 
         }
 
+        private void ResetEditColors()
+        {
+            foreach (Button btn in editBtns)
+                btn.BackColor = Color.MediumSeaGreen;
+
+        }
+
+        /*private void btnRook_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            selectedEditIndex = FindIndexInArray(editBtns, btn);
+            ResetEditColors();
+            *//*Type t = typeof(Rook);
+
+            ConstructorInfo ctor = t.GetConstructor(new[] { typeof(int), typeof(int), typeof(Bitmap), typeof(string) });
+            object instance = ctor.Invoke(new object[] { 0, 0, rook[0], "white" });
+
+            ChessPiece piece = (ChessPiece)instance;
+            MessageBox.Show(piece.GetType().ToString());
+
+            ChessPiece piece1 = (ChessPiece)Activator.CreateInstance(t, 0, 0, rook[0], "white");
+            MessageBox.Show(piece1.Color);*//*
+
+        }*/
+
+        private void EditPiece_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+
+            ResetEditColors();
+            btn.BackColor = Color.MediumSpringGreen;
+
+            string className = btn.Tag.ToString();
+            Type t = Type.GetType("FilipsChess." + className);
+            chessPieceCtor = t.GetConstructor(new[] { typeof(int), typeof(int), typeof(string) });
+        }
+
+        private void chkEditing_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (Button btn in editBtns)
+                btn.Enabled = chkEditing.Checked;
+
+            if (!chkEditing.Checked)
+            {
+                ResetStatus();
+                ResetColours();
+                playerColor = "white";
+                AnalyzeBoard();
+            }
+        }
+
+        private void btnClearBoard_Click(object sender, EventArgs e)
+        {
+            if (!chkEditing.Checked)
+                return;
+
+            ExecuteAcrossGrid((y, x) =>
+            {
+                Global.chessPieces[y, x] = null;
+                Global.board[y, x].Image = null;
+            });
+        }
     }
 }

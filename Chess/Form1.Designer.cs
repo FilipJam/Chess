@@ -109,6 +109,8 @@
             this.btnQueen = new System.Windows.Forms.Button();
             this.btnKing = new System.Windows.Forms.Button();
             this.btnPawn = new System.Windows.Forms.Button();
+            this.chkEditing = new System.Windows.Forms.CheckBox();
+            this.btnClearBoard = new System.Windows.Forms.Button();
             this.menuPromotion.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -998,7 +1000,7 @@
             // 
             this.chkComputer.AutoSize = true;
             this.chkComputer.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkComputer.Location = new System.Drawing.Point(218, 765);
+            this.chkComputer.Location = new System.Drawing.Point(124, 765);
             this.chkComputer.Name = "chkComputer";
             this.chkComputer.Size = new System.Drawing.Size(197, 29);
             this.chkComputer.TabIndex = 71;
@@ -1033,80 +1035,120 @@
             // btnRook
             // 
             this.btnRook.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnRook.Enabled = false;
             this.btnRook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRook.Image = ((System.Drawing.Image)(resources.GetObject("btnRook.Image")));
-            this.btnRook.Location = new System.Drawing.Point(63, 796);
+            this.btnRook.Location = new System.Drawing.Point(17, 796);
             this.btnRook.Name = "btnRook";
             this.btnRook.Size = new System.Drawing.Size(80, 80);
             this.btnRook.TabIndex = 74;
-            this.btnRook.Tag = "00";
+            this.btnRook.Tag = "Rook";
             this.btnRook.UseVisualStyleBackColor = false;
+            this.btnRook.Click += new System.EventHandler(this.EditPiece_Click);
             // 
             // btnKnight
             // 
             this.btnKnight.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnKnight.Enabled = false;
             this.btnKnight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnKnight.Image = ((System.Drawing.Image)(resources.GetObject("btnKnight.Image")));
-            this.btnKnight.Location = new System.Drawing.Point(151, 796);
+            this.btnKnight.Location = new System.Drawing.Point(105, 796);
             this.btnKnight.Name = "btnKnight";
             this.btnKnight.Size = new System.Drawing.Size(80, 80);
             this.btnKnight.TabIndex = 75;
-            this.btnKnight.Tag = "00";
+            this.btnKnight.Tag = "Knight";
             this.btnKnight.UseVisualStyleBackColor = false;
+            this.btnKnight.Click += new System.EventHandler(this.EditPiece_Click);
             // 
             // btnBishop
             // 
             this.btnBishop.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnBishop.Enabled = false;
             this.btnBishop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBishop.Image = ((System.Drawing.Image)(resources.GetObject("btnBishop.Image")));
-            this.btnBishop.Location = new System.Drawing.Point(237, 796);
+            this.btnBishop.Location = new System.Drawing.Point(191, 796);
             this.btnBishop.Name = "btnBishop";
             this.btnBishop.Size = new System.Drawing.Size(80, 80);
             this.btnBishop.TabIndex = 76;
-            this.btnBishop.Tag = "00";
+            this.btnBishop.Tag = "Bishop";
             this.btnBishop.UseVisualStyleBackColor = false;
+            this.btnBishop.Click += new System.EventHandler(this.EditPiece_Click);
             // 
             // btnQueen
             // 
             this.btnQueen.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnQueen.Enabled = false;
             this.btnQueen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnQueen.Image = ((System.Drawing.Image)(resources.GetObject("btnQueen.Image")));
-            this.btnQueen.Location = new System.Drawing.Point(323, 796);
+            this.btnQueen.Location = new System.Drawing.Point(277, 796);
             this.btnQueen.Name = "btnQueen";
             this.btnQueen.Size = new System.Drawing.Size(80, 80);
             this.btnQueen.TabIndex = 77;
-            this.btnQueen.Tag = "00";
+            this.btnQueen.Tag = "Queen";
             this.btnQueen.UseVisualStyleBackColor = false;
+            this.btnQueen.Click += new System.EventHandler(this.EditPiece_Click);
             // 
             // btnKing
             // 
             this.btnKing.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnKing.Enabled = false;
             this.btnKing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnKing.Image = ((System.Drawing.Image)(resources.GetObject("btnKing.Image")));
-            this.btnKing.Location = new System.Drawing.Point(409, 796);
+            this.btnKing.Location = new System.Drawing.Point(363, 796);
             this.btnKing.Name = "btnKing";
             this.btnKing.Size = new System.Drawing.Size(80, 80);
             this.btnKing.TabIndex = 78;
-            this.btnKing.Tag = "00";
+            this.btnKing.Tag = "King";
             this.btnKing.UseVisualStyleBackColor = false;
+            this.btnKing.Click += new System.EventHandler(this.EditPiece_Click);
             // 
             // btnPawn
             // 
             this.btnPawn.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnPawn.Enabled = false;
             this.btnPawn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPawn.Image = ((System.Drawing.Image)(resources.GetObject("btnPawn.Image")));
-            this.btnPawn.Location = new System.Drawing.Point(495, 796);
+            this.btnPawn.Location = new System.Drawing.Point(449, 796);
             this.btnPawn.Name = "btnPawn";
             this.btnPawn.Size = new System.Drawing.Size(80, 80);
             this.btnPawn.TabIndex = 79;
-            this.btnPawn.Tag = "00";
+            this.btnPawn.Tag = "Pawn";
             this.btnPawn.UseVisualStyleBackColor = false;
+            this.btnPawn.Click += new System.EventHandler(this.EditPiece_Click);
+            // 
+            // chkEditing
+            // 
+            this.chkEditing.AutoSize = true;
+            this.chkEditing.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEditing.Location = new System.Drawing.Point(327, 765);
+            this.chkEditing.Name = "chkEditing";
+            this.chkEditing.Size = new System.Drawing.Size(170, 29);
+            this.chkEditing.TabIndex = 80;
+            this.chkEditing.Text = "Enable Editing";
+            this.chkEditing.UseVisualStyleBackColor = true;
+            this.chkEditing.CheckedChanged += new System.EventHandler(this.chkEditing_CheckedChanged);
+            // 
+            // btnClearBoard
+            // 
+            this.btnClearBoard.BackColor = System.Drawing.Color.White;
+            this.btnClearBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClearBoard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearBoard.Location = new System.Drawing.Point(535, 796);
+            this.btnClearBoard.Name = "btnClearBoard";
+            this.btnClearBoard.Size = new System.Drawing.Size(80, 80);
+            this.btnClearBoard.TabIndex = 81;
+            this.btnClearBoard.Tag = "Pawn";
+            this.btnClearBoard.Text = "CLEAR";
+            this.btnClearBoard.UseVisualStyleBackColor = false;
+            this.btnClearBoard.Click += new System.EventHandler(this.btnClearBoard_Click);
             // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 877);
+            this.ClientSize = new System.Drawing.Size(634, 877);
+            this.Controls.Add(this.btnClearBoard);
+            this.Controls.Add(this.chkEditing);
             this.Controls.Add(this.btnPawn);
             this.Controls.Add(this.btnKing);
             this.Controls.Add(this.btnQueen);
@@ -1273,6 +1315,8 @@
         private System.Windows.Forms.Button btnQueen;
         private System.Windows.Forms.Button btnKing;
         private System.Windows.Forms.Button btnPawn;
+        private System.Windows.Forms.CheckBox chkEditing;
+        private System.Windows.Forms.Button btnClearBoard;
     }
 }
 

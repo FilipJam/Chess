@@ -10,9 +10,14 @@ namespace FilipsChess
 {
     internal class Bishop : ChessPiece
     {
-        public Bishop(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
+        public Bishop(int y, int x, string pieceColor) : base(y, x, pieceColor)
         {
             value = 3;
+
+            if (pieceColor == "white")
+                Image = Asset.BishopImage[0];
+            else
+                Image = Asset.BishopImage[1];
         }
         public override void CalcMoves(bool analysisMode = false)
         {

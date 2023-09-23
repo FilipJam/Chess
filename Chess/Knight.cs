@@ -10,9 +10,14 @@ namespace FilipsChess
 {
     internal class Knight : ChessPiece
     {
-        public Knight(int y, int x, Bitmap image, string pieceColor) : base(y, x, image, pieceColor)
+        public Knight(int y, int x, string pieceColor) : base(y, x, pieceColor)
         {
             value = 3;
+
+            if (pieceColor == "white")
+                Image = Asset.KnightImage[0];
+            else
+                Image = Asset.KnightImage[1];
         }
 
         public override void CalcMoves(bool analysisMode = false)

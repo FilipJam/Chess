@@ -22,9 +22,8 @@ namespace FilipsChess
         protected int value;
         private string pieceColor;
 
-        public ChessPiece(int y, int x, Bitmap image, string pieceColor)
+        public ChessPiece(int y, int x, string pieceColor)
         {
-            this.image = image;
             position = new Point(x, y);
             moves = new List<Point>();
             captures = new List<Point>();
